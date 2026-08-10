@@ -359,6 +359,15 @@ footer.stats {
   margin: 0 0 4px;
 }
 
+.ticket-hint {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  line-height: 1.4;
+}
+
 .gauge {
   margin: 10px 0 18px;
 }
@@ -456,8 +465,37 @@ footer.stats {
   text-decoration-color: var(--text-faint);
 }
 
-.ticket-reset {
+.ticket-actions {
   margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ticket-export {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--ember);
+  color: #fdfbf5;
+  border: 1px solid var(--ember);
+  border-radius: 999px;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ticket-export:hover {
+  background: var(--ember-bright);
+  border-color: var(--ember-bright);
+}
+
+.ticket-export:active { transform: translateY(1px); }
+
+.ticket-reset {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-faint);
@@ -469,6 +507,15 @@ footer.stats {
 }
 
 .ticket-reset:hover { color: var(--ember-bright); }
+
+.ticket-toast {
+  margin: 12px 0 0;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--sage);
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
 
 /* Method */
 

@@ -30,6 +30,19 @@ För att få upp det på GitHub:
 Efter det pushar du bara `git add . && git commit -m "..." && git push` varje
 gång filerna ändras.
 
+## Inköpslista → Anteckningar / Påminnelser
+
+I checklistan för varje recept betyder ibocking **"jag har redan det här hemma"**.
+Knappen **"Exportera inköpslista"** samlar allt du *inte* har bockat av och
+öppnar iPhonens delningsmeny (Web Share API), så du kan skicka listan rakt
+in i Anteckningar, Påminnelser, Meddelanden eller mejl. Listan formateras
+som `☐ ingrediens` per rad — en enkel, läsbar checklista i vanlig text
+(webbläsare kan inte skapa Anteckningars interaktiva kryssrutor direkt, men
+den här texten är lätt att scanna i affären).
+
+På datorer utan delningsmeny kopieras listan till urklipp istället, med en
+bekräftelse under knappen.
+
 ## Lägga till nya recept
 
 Alla recept ligger i **`data.js`**, i arrayen `RECIPES`. Varje recept är ett

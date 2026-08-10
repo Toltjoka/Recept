@@ -166,12 +166,17 @@
       <div class="detail-grid">
         <div class="ticket">
           <h2>Checklista</h2>
+          <p class="ticket-hint">Bocka av det du redan har hemma — resten blir din inköpslista.</p>
           <div class="gauge">
             <div class="gauge-label"><span id="gauge-text">0 / ${totalCount} avbockade</span><span id="gauge-pct">0%</span></div>
             <div class="gauge-track"><div class="gauge-fill" id="gauge-fill" style="width:0%"></div></div>
           </div>
           ${ingredientsBlock}
-          <button class="ticket-reset" id="reset-checklist">Rensa checklista</button>
+          <div class="ticket-actions">
+            <button class="ticket-export" id="export-shopping">Exportera inköpslista</button>
+            <button class="ticket-reset" id="reset-checklist">Rensa checklista</button>
+          </div>
+          <p class="ticket-toast" id="ticket-toast" hidden></p>
         </div>
         <div class="method">
           <h2>Tillagning</h2>
@@ -206,8 +211,52 @@
       renderDetail(recipe);
     });
 
+    document.getElementById("export-shopping").addEventListener("click", () => {
+      exportShoppingList(recipe);
+    });
+
     updateGauge();
     window.scrollTo(0, 0);
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById("ticket-toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.hidden = false;
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { toast.hidden = true; }, 4000);
+  }
+
+  function exportShoppingList(recipe) {
+    const items = Array.from(app.querySelectorAll(".ingredient-item"))
+      .filter((li) => !li.classList.contains("checked"))
+      .map((li) => li.querySelector("span").textContent.trim());
+
+    if (items.length === 0) {
+      showToast("Inget att handla — allt är avbockat.");
+      return;
+    }
+
+    const title = `${recipe.title} — inköpslista`;
+    const body = items.map((text) => `\u2610 ${text}`).join("\n");
+    const fullText = `${title}\n\n${body}`;
+
+    if (navigator.share) {
+      navigator.share({ title, text: fullText }).catch(() => {
+        /* användaren avbröt delningen, gör inget */
+      });
+      return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullText)
+        .then(() => showToast("Kopierat! Klistra in i Anteckningar eller Påminnelser."))
+        .catch(() => showToast("Kunde inte kopiera automatiskt — markera och kopiera texten manuellt."));
+      return;
+    }
+
+    showToast("Delning stöds inte i den här webbläsaren.");
   }
 
   function ingredientItemHtml(text, idx, checked) {
