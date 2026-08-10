@@ -32,13 +32,16 @@ gång filerna ändras.
 
 ## Inköpslista → Anteckningar / Påminnelser
 
-I checklistan för varje recept betyder ibocking **"jag har redan det här hemma"**.
-Knappen **"Exportera inköpslista"** samlar allt du *inte* har bockat av och
-öppnar iPhonens delningsmeny (Web Share API), så du kan skicka listan rakt
-in i Anteckningar, Påminnelser, Meddelanden eller mejl. Listan formateras
-som `☐ ingrediens` per rad — en enkel, läsbar checklista i vanlig text
-(webbläsare kan inte skapa Anteckningars interaktiva kryssrutor direkt, men
-den här texten är lätt att scanna i affären).
+Varje ingrediens har två oberoende kryssrutor:
+- **Runda till vänster** — bocka av vartefter du lagar (stryker över texten, räknas i procent-mätaren högst upp).
+- **Fyrkantig till höger** — kryssa i det som **ska handlas**. Påverkar inte den runda eller texten.
+
+Knappen **"Exportera inköpslista"** samlar allt som är ikryssat i de fyrkantiga
+rutorna och öppnar iPhonens delningsmeny (Web Share API), så du kan skicka
+listan rakt in i Anteckningar, Påminnelser, Meddelanden eller mejl. Listan
+formateras som `☐ ingrediens` per rad — en enkel, läsbar checklista i vanlig
+text (webbläsare kan inte skapa Anteckningars interaktiva kryssrutor direkt,
+men den här texten är lätt att scanna i affären).
 
 På datorer utan delningsmeny kopieras listan till urklipp istället, med en
 bekräftelse under knappen.

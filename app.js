@@ -112,6 +112,10 @@
     return `rokhuset-checklist-${id}`;
   }
 
+  function buyStorageKey(id) {
+    return `rokhuset-buylist-${id}`;
+  }
+
   function loadChecked(id) {
     try {
       const raw = localStorage.getItem(storageKey(id));
@@ -129,16 +133,34 @@
     }
   }
 
+  function loadBuyList(id) {
+    try {
+      const raw = localStorage.getItem(buyStorageKey(id));
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveBuyList(id, state) {
+    try {
+      localStorage.setItem(buyStorageKey(id), JSON.stringify(state));
+    } catch (e) {
+      /* localStorage otillgängligt, ignorera tyst */
+    }
+  }
+
   function renderDetail(recipe) {
     const checked = loadChecked(recipe.id);
+    const buyList = loadBuyList(recipe.id);
     const totalCount = flattenIngredientCount(recipe.ingredients);
 
     let ingIndex = 0;
     const ingredientsHtml = recipe.ingredients.map((entry) => {
       if (typeof entry === "string") {
-        return ingredientItemHtml(entry, ingIndex++, checked);
+        return ingredientItemHtml(entry, ingIndex++, checked, buyList);
       }
-      const itemsHtml = entry.items.map((text) => ingredientItemHtml(text, ingIndex++, checked)).join("");
+      const itemsHtml = entry.items.map((text) => ingredientItemHtml(text, ingIndex++, checked, buyList)).join("");
       return `
         <div class="ingredient-group">
           <div class="ingredient-group__label">${escapeHtml(entry.group)}</div>
@@ -166,7 +188,7 @@
       <div class="detail-grid">
         <div class="ticket">
           <h2>Checklista</h2>
-          <p class="ticket-hint">Bocka av det du redan har hemma — resten blir din inköpslista.</p>
+          <p class="ticket-hint">Bocka av den runda till vänster medan du lagar. Kryssa i rutan till höger för det som ska handlas.</p>
           <div class="gauge">
             <div class="gauge-label"><span id="gauge-text">0 / ${totalCount} avbockade</span><span id="gauge-pct">0%</span></div>
             <div class="gauge-track"><div class="gauge-fill" id="gauge-fill" style="width:0%"></div></div>
@@ -174,7 +196,7 @@
           ${ingredientsBlock}
           <div class="ticket-actions">
             <button class="ticket-export" id="export-shopping">Exportera inköpslista</button>
-            <button class="ticket-reset" id="reset-checklist">Rensa checklista</button>
+            <button class="ticket-reset" id="reset-checklist">Rensa allt</button>
           </div>
           <p class="ticket-toast" id="ticket-toast" hidden></p>
         </div>
@@ -196,7 +218,7 @@
       document.getElementById("gauge-fill").style.width = `${pct}%`;
     }
 
-    app.querySelectorAll(".ingredient-item input[type=checkbox]").forEach((box) => {
+    app.querySelectorAll(".prep-checkbox").forEach((box) => {
       box.addEventListener("change", () => {
         const state = loadChecked(recipe.id);
         state[box.dataset.idx] = box.checked;
@@ -206,8 +228,17 @@
       });
     });
 
+    app.querySelectorAll(".buy-checkbox").forEach((box) => {
+      box.addEventListener("change", () => {
+        const state = loadBuyList(recipe.id);
+        state[box.dataset.idx] = box.checked;
+        saveBuyList(recipe.id, state);
+      });
+    });
+
     document.getElementById("reset-checklist").addEventListener("click", () => {
       saveChecked(recipe.id, {});
+      saveBuyList(recipe.id, {});
       renderDetail(recipe);
     });
 
@@ -230,11 +261,11 @@
 
   function exportShoppingList(recipe) {
     const items = Array.from(app.querySelectorAll(".ingredient-item"))
-      .filter((li) => !li.classList.contains("checked"))
-      .map((li) => li.querySelector("span").textContent.trim());
+      .filter((li) => li.querySelector(".buy-checkbox").checked)
+      .map((li) => li.querySelector(".ingredient-label span").textContent.trim());
 
     if (items.length === 0) {
-      showToast("Inget att handla — allt är avbockat.");
+      showToast("Inget markerat att handla — kryssa i rutorna till höger först.");
       return;
     }
 
@@ -259,12 +290,14 @@
     showToast("Delning stöds inte i den här webbläsaren.");
   }
 
-  function ingredientItemHtml(text, idx, checked) {
+  function ingredientItemHtml(text, idx, checked, buyList) {
     const isChecked = !!checked[idx];
+    const isBuy = !!buyList[idx];
     return `
       <li class="ingredient-item ${isChecked ? "checked" : ""}">
-        <input type="checkbox" id="ing-${idx}" data-idx="${idx}" ${isChecked ? "checked" : ""}>
-        <label for="ing-${idx}" style="cursor:pointer; flex:1;"><span>${escapeHtml(text)}</span></label>
+        <input type="checkbox" class="prep-checkbox" id="ing-${idx}" data-idx="${idx}" ${isChecked ? "checked" : ""}>
+        <label for="ing-${idx}" class="ingredient-label"><span>${escapeHtml(text)}</span></label>
+        <input type="checkbox" class="buy-checkbox" id="buy-${idx}" data-idx="${idx}" ${isBuy ? "checked" : ""} aria-label="Ska handlas: ${escapeHtml(text)}">
       </li>
     `;
   }

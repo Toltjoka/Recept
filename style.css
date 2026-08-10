@@ -419,12 +419,11 @@ footer.stats {
   padding: 7px 0;
   border-bottom: 1px dashed var(--line-soft);
   font-size: 14.5px;
-  cursor: pointer;
 }
 
 .ingredient-item:last-child { border-bottom: none; }
 
-.ingredient-item input[type="checkbox"] {
+.ingredient-item .prep-checkbox {
   appearance: none;
   -webkit-appearance: none;
   width: 17px;
@@ -438,12 +437,53 @@ footer.stats {
   transition: border-color 0.15s, background 0.15s;
 }
 
-.ingredient-item input[type="checkbox"]:checked {
+.ingredient-item .prep-checkbox:checked {
   background: var(--sage);
   border-color: var(--sage);
 }
 
-.ingredient-item input[type="checkbox"]:checked::after {
+.ingredient-item .prep-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1.5px;
+  width: 4px;
+  height: 8px;
+  border: solid #fdfbf5;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.ingredient-label {
+  cursor: pointer;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ingredient-item .buy-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  min-width: 17px;
+  margin-top: 2px;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.ingredient-item .buy-checkbox:hover {
+  border-color: var(--ember);
+}
+
+.ingredient-item .buy-checkbox:checked {
+  background: var(--ember);
+  border-color: var(--ember);
+}
+
+.ingredient-item .buy-checkbox:checked::after {
   content: "";
   position: absolute;
   left: 5px;
@@ -459,7 +499,7 @@ footer.stats {
   transition: color 0.15s, text-decoration-color 0.15s;
 }
 
-.ingredient-item.checked span {
+.ingredient-item.checked .ingredient-label span {
   color: var(--text-faint);
   text-decoration: line-through;
   text-decoration-color: var(--text-faint);
