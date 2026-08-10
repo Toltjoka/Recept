@@ -48,25 +48,37 @@
   // ---------- Home ----------
 
   let currentCategory = "Alla";
+  let currentAuthor = "Alla";
   let currentQuery = "";
 
   function renderHome() {
     const categories = ["Alla", ...Array.from(new Set(RECIPES.map((r) => r.category))).sort()];
+    const authors = ["Alla", ...Array.from(new Set(RECIPES.map((r) => r.book))).sort()];
 
     const sorted = [...RECIPES].sort((a, b) => (b.dateAdded || "").localeCompare(a.dateAdded || ""));
 
     const filtered = sorted.filter((r) => {
       const matchesCategory = currentCategory === "Alla" || r.category === currentCategory;
+      const matchesAuthor = currentAuthor === "Alla" || r.book === currentAuthor;
       const haystack = (r.title + " " + r.book + " " + r.category).toLowerCase();
       const matchesQuery = currentQuery.trim() === "" || haystack.includes(currentQuery.toLowerCase());
-      return matchesCategory && matchesQuery;
+      return matchesCategory && matchesAuthor && matchesQuery;
     });
 
     app.innerHTML = `
       <div class="controls">
         <input type="text" class="search-input" id="search" placeholder="Sök recept, kock eller kategori…" value="${escapeHtml(currentQuery)}" aria-label="Sök recept">
-        <div class="category-pills" id="pills" role="group" aria-label="Filtrera på kategori">
-          ${categories.map((c) => `<button class="pill ${c === currentCategory ? "active" : ""}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("")}
+        <div class="filter-group">
+          <span class="filter-label">Kategori</span>
+          <div class="category-pills" id="pills" role="group" aria-label="Filtrera på kategori">
+            ${categories.map((c) => `<button class="pill ${c === currentCategory ? "active" : ""}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("")}
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Författare</span>
+          <div class="category-pills" id="author-pills" role="group" aria-label="Filtrera på författare">
+            ${authors.map((a) => `<button class="pill pill-author ${a === currentAuthor ? "active" : ""}" data-author="${escapeHtml(a)}">${escapeHtml(a)}</button>`).join("")}
+          </div>
         </div>
       </div>
       <div class="recipe-grid">
@@ -89,6 +101,13 @@
       const btn = e.target.closest(".pill");
       if (!btn) return;
       currentCategory = btn.dataset.cat;
+      renderHome();
+    });
+
+    document.getElementById("author-pills").addEventListener("click", (e) => {
+      const btn = e.target.closest(".pill");
+      if (!btn) return;
+      currentAuthor = btn.dataset.author;
       renderHome();
     });
   }
@@ -375,6 +394,7 @@
     if (event === "SIGNED_OUT") {
       updateLogoutLink(false);
       currentCategory = "Alla";
+      currentAuthor = "Alla";
       currentQuery = "";
       renderLogin();
     }

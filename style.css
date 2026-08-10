@@ -203,10 +203,25 @@ main {
 
 .controls {
   display: flex;
+  flex-direction: column;
   gap: 14px;
-  flex-wrap: wrap;
-  align-items: center;
   margin-bottom: 28px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  flex: 0 0 auto;
 }
 
 .search-input {
@@ -251,6 +266,12 @@ main {
   border-color: var(--ember);
   color: #fdfbf5;
   font-weight: 600;
+}
+
+.pill-author.active {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: #fdfbf5;
 }
 
 /* ---------- Recipe grid / tags ---------- */
