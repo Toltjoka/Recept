@@ -1,4 +1,4 @@
-# Rökhuset — lokal receptbok
+# Toltjokas receptbok
 
 Ett fristående HTML-verktyg (ingen server, inget bygge) med alla dina recept.
 Förstasidan listar alla recept som klickbara kort, varje recept har en
