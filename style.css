@@ -5,19 +5,19 @@
    ============================================================ */
 
 :root {
-  --bg: #18130f;
-  --bg-card: #241c16;
-  --bg-card-hover: #2c231b;
-  --bg-raised: #2a221b;
-  --line: #3c2f24;
-  --line-soft: #2c231b;
-  --text: #efe3d2;
-  --text-muted: #a8927c;
-  --text-faint: #7a6a5a;
-  --ember: #d1541f;
-  --ember-bright: #e8703a;
-  --brass: #c99a3d;
-  --sage: #8ba07a;
+  --bg: #f5efe1;
+  --bg-card: #fdfbf5;
+  --bg-card-hover: #ffffff;
+  --bg-raised: #f0e8d5;
+  --line: #ddccaa;
+  --line-soft: #e8dcbe;
+  --text: #2c2116;
+  --text-muted: #6f5c44;
+  --text-faint: #95815f;
+  --ember: #c14a1e;
+  --ember-bright: #e0632a;
+  --brass: #9c761f;
+  --sage: #56744a;
 
   --font-display: "Anton", "Oswald", "Arial Narrow", sans-serif;
   --font-body: "Lora", Georgia, "Times New Roman", serif;
@@ -39,8 +39,8 @@ body {
   margin: 0;
   background: var(--bg);
   background-image:
-    radial-gradient(ellipse at top, rgba(209, 84, 31, 0.06), transparent 55%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+    radial-gradient(ellipse at top, rgba(193, 74, 30, 0.05), transparent 55%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 1px, transparent 1px, transparent 3px);
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.55;
@@ -55,7 +55,7 @@ a { color: inherit; text-decoration: none; }
   outline-offset: 2px;
 }
 
-::selection { background: var(--ember); color: #1a1310; }
+::selection { background: var(--ember); color: #fdfbf5; }
 
 /* ---------- Header ---------- */
 
@@ -156,59 +156,50 @@ main {
 .pill.active {
   background: var(--ember);
   border-color: var(--ember);
-  color: #1a1310;
+  color: #fdfbf5;
   font-weight: 600;
 }
 
 /* ---------- Recipe grid / tags ---------- */
 
 .recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .recipe-card {
   position: relative;
   background: var(--bg-card);
   border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
   border-radius: var(--radius);
-  padding: 20px 18px 18px;
+  padding: 16px 20px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-}
-
-.recipe-card::before {
-  /* hole punch, like a hanging meat tag */
-  content: "";
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--line);
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  transition: border-color 0.15s ease, background 0.15s ease, padding-left 0.15s ease;
 }
 
 .recipe-card:hover {
-  transform: translateY(-2px);
   border-color: var(--ember);
+  border-left-color: var(--ember);
   background: var(--bg-card-hover);
+  padding-left: 24px;
 }
 
 .recipe-card .badge {
-  align-self: flex-start;
+  flex: 0 0 auto;
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--brass);
-  border: 1px solid rgba(201, 154, 61, 0.4);
-  padding: 3px 8px;
+  border: 1px solid rgba(156, 118, 31, 0.35);
+  padding: 4px 9px;
   border-radius: 999px;
+  white-space: nowrap;
 }
 
 .recipe-card h3 {
@@ -216,25 +207,53 @@ main {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  font-size: 22px;
-  line-height: 1.05;
+  font-size: 20px;
+  line-height: 1.1;
   margin: 0;
-  padding-right: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .recipe-card .meta {
+  flex: 0 0 auto;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-faint);
   display: flex;
-  justify-content: space-between;
-  margin-top: auto;
-  padding-top: 8px;
-  border-top: 1px dashed var(--line);
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  text-align: right;
+  padding-left: 16px;
+  border-left: 1px dashed var(--line);
+}
+
+@media (max-width: 640px) {
+  .recipe-card {
+    flex-wrap: wrap;
+  }
+  .recipe-card h3 {
+    flex-basis: 100%;
+    order: 2;
+  }
+  .recipe-card .badge {
+    order: 1;
+  }
+  .recipe-card .meta {
+    order: 3;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    border-left: none;
+    border-top: 1px dashed var(--line);
+    padding-left: 0;
+    padding-top: 8px;
+  }
 }
 
 .empty-state {
-  grid-column: 1 / -1;
   text-align: center;
   color: var(--text-faint);
   font-family: var(--font-mono);
@@ -422,7 +441,7 @@ footer.stats {
   top: 1.5px;
   width: 4px;
   height: 8px;
-  border: solid #18130f;
+  border: solid #fdfbf5;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
