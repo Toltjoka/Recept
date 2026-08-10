@@ -225,7 +225,7 @@ main {
 }
 
 .search-input {
-  flex: 1 1 240px;
+  width: 100%;
   background: var(--bg-card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
