@@ -9,6 +9,110 @@
 
 const RECIPES = [
   {
+    id: "sonoran-tortilla-grundrecept",
+    title: "Sonoran Tortilla",
+    book: "Jonas Cramby",
+    bookFull: "Jonas Cramby – kokbok, grundrecept",
+    category: "Bröd",
+    servings: "8 stora eller 16 små",
+    dateAdded: "2026-08-10",
+    ingredients: [
+      "260 g tipo 00-mjöl",
+      "180 g varmt vatten, cirka 60–65 grader",
+      "½ tsk salt",
+      "50 g rumstempererat ister (alternativt talg eller smör)"
+    ],
+    steps: [
+      "Autolys: blanda mjölet med det varma vattnet till en smidig deg. Låt vila i rumstemperatur i 30 minuter så att glutentrådarna hinner bildas, innan fettet tillsätts (fett hämmar glutenutvecklingen).",
+      "Tillsätt salt och knåda, för hand eller i maskin, i cirka 10 minuter samtidigt som du arbetar in istret en klick i taget. Degen ska bli jämn och smidig.",
+      "Vik ihop degen, täck skålen och låt vila minst 1 timme i kylen.",
+      "Dela degen i så många bitar som du vill ha tortillas och forma till bollar. Ju noggrannare du formar dem, desto jämnare blir resultatet. Platta till varje boll med fingrarna till en rund disk.",
+      "Kavla ut, snurra degen och kavla igen — upprepa tills tortillan är så tunn att du nästan ser bordsskivan genom den. Använd lite mjöl om degen känns kladdig.",
+      "Hetta upp en torr stekhäll eller panna. Värmen är viktig: tillräckligt varm för att tortillan ska puffa upp, men inte så varm att mjölet bränns och blir bittert. Stek varje tortilla några sekunder per sida tills den puffar upp.",
+      "Låt tortillorna vila i en hög, gärna inlindade i en handduk eller i en tortillavärmare. Ät direkt eller värm upp igen på grillen eller i panna."
+    ]
+  },
+  {
+    id: "annas-ragbrod",
+    title: "Annas Rågbröd",
+    book: "Anna",
+    bookFull: "Anna – baserat på ett recept från Vegetarisk Hverdag (Camilla Skov)",
+    category: "Bröd",
+    servings: "1 rågbröd, ca ett dygns totaltid",
+    dateAdded: "2026-08-10",
+    sourceUrl: "https://vegetariskhverdag.dk/2018/12/rugbroed-en-nem-opskrift/",
+    ingredients: [
+      { group: "Kväll, dag 1 (fördeg)", items: [
+        "50 g surdeg",
+        "120 g rågmjöl (2 dl)",
+        "60 g vetemjöl (1 dl)",
+        "600 g vatten (6 dl)",
+        "125 g krossade vetekärnor (2 dl)",
+        "125 g krossade rågkärnor (2 dl)"
+      ]},
+      { group: "Morgon, dag 2 (tillsätts i fördegen)", items: [
+        "120 g vetemjöl (2 dl)",
+        "60–120 g rågmjöl (1–2 dl, beroende på konsistens)",
+        "1 dl solroskärnor eller andra valfria kärnor (t.ex. linfrö, sesamfrö eller chiafrö)",
+        "16 g fint havssalt (ca 1¼ msk)",
+        "2 msk maltsirap (valfritt)"
+      ]}
+    ],
+    steps: [
+      "Kväll, dag 1: blanda surdegen med rågmjöl, vetemjöl, vatten och de krossade kärnorna i en bunke. Häll gärna i vattnet lite i taget så det blir lättare att röra ut klumparna. Låt stå övertäckt på köksbänken över natten.",
+      "Morgon, dag 2: rör ner vetemjöl, rågmjöl, solroskärnor, salt och eventuell maltsirap i fördegen. Mängden rågmjöl styrs av konsistensen — degen ska vara våt men inte flytande. Ställ degen i kylen medan du är på jobbet eller i skolan, cirka 8–9 timmar (eller låt den jäsa i rumstemperatur i cirka 3 timmar om du är hemma).",
+      "Eftermiddag, dag 2: ta ut degen ur kylen. Smöra en brödform, fyll i degen och jämna till ytan med en degskrapa (blöt skrapan under kranen så går det lättare). Låt jäsa i rumstemperatur tills degen stigit någon centimeter och ytan börjar se lite \u201ctrött\u201d ut, cirka 3 timmar.",
+      "Kväll, dag 2: picka cirka 20 hål i degen med en stickpinne eller liknande, så att ångan kan komma ut utan att det bildas en luftficka mellan skorpa och bröd.",
+      "Grädda i 200 °C vanlig ugn (över-/undervärme) i sammanlagt 1 timme och 15 minuter. Efter en timme kan du ta ur brödet ur formen och grädda klart direkt på galler de sista 15 minuterna.",
+      "Vill du ha en mörk, blank skorpa: pensla brödet med smör direkt när det kommer ur ugnen. Vill du istället ha en mjuk skorpa: linda in brödet i en kökshandduk eller lägg det i en plastpåse medan det fortfarande är ljummet. Vänta minst 5 timmar (gärna till morgonen efter) innan du skär i brödet, så hinner det sätta sig."
+    ]
+  },
+  {
+    id: "alabama-chicken",
+    title: "Alabama Chicken",
+    book: "ICA",
+    bookFull: "ICA.se – ur tidningen Buffé nr 5, 2024",
+    category: "BBQ & kött",
+    servings: "6 portioner",
+    dateAdded: "2026-08-10",
+    sourceUrl: "https://www.ica.se/recept/alabama-chicken-740396/",
+    ingredients: [
+      { group: "Rimlag", items: [
+        "1 liter vatten",
+        "1 dl salt",
+        "½ dl strösocker",
+        "6 kycklingklubbor",
+        "ca 1½ dl rökflis"
+      ]},
+      { group: "Rub", items: [
+        "2 msk paprikapulver",
+        "1 msk lökpulver",
+        "1 msk svartpeppar"
+      ]},
+      { group: "Alabama pink sauce", items: [
+        "2½ dl majonnäs",
+        "1 dl äppelcidervinäger",
+        "1 msk sambal oelek",
+        "1½ tsk worcestershiresås",
+        "2 krm chiliflakes",
+        "1 krm cayennepeppar",
+        "2 krm svartpeppar",
+        "½ tsk salt"
+      ]}
+    ],
+    steps: [
+      "Rimlag: blanda vatten, salt och strösocker till en rimlag. Lägg i kycklingklubborna och låt rimma i kylen i 1 timme.",
+      "Lägg rökflisen i en skål med vatten så den hinner suga upp fukt inför rökningen.",
+      "Rub: blanda paprikapulver, lökpulver och svartpeppar.",
+      "Förbered grillen för rökning: tänd ett tjockt lager kol och låt det brinna ner till fin glöd, cirka 30 minuter. Strö den fuktiga träflisen över kolen och lägg på locket.",
+      "Ta upp kycklingen ur rimlagen och torka torr med hushållspapper. Gnid in rubben ordentligt. Lägg klubborna på grillen, lägg på locket och rök vid 120 °C tills innertemperaturen når 82 °C, cirka 4 timmar.",
+      "Alabama pink sauce: rör ihop alla ingredienser till en jämn sås.",
+      "Grilla klubborna en kort stund direkt över glöden mot slutet så skinnet blir krispigt.",
+      "Doppa de nygrillade klubborna i Alabama-såsen och servera direkt.",
+      "Tips: flera som lagat receptet tycker mängden äppelcidervinäger i såsen (1 dl) blir väl mycket — testa gärna med t.ex. 1 msk först och smaka dig fram om du vill ha en mildare sås."
+    ]
+  },
+  {
     id: "carne-asada-tacos",
     title: "Carne Asada Tacos",
     book: "Jonas Cramby",

@@ -183,6 +183,7 @@
         <div class="source">
           <strong>${escapeHtml(recipe.book)}</strong> · ${escapeHtml(recipe.bookFull.split("–")[1] || "")}
           ${recipe.servings ? ` · ${escapeHtml(recipe.servings)}` : ""}
+          ${recipe.sourceUrl ? ` · <a class="source-link" href="${recipe.sourceUrl}" target="_blank" rel="noopener">Originalrecept &#8599;</a>` : ""}
         </div>
       </div>
       <div class="detail-grid">

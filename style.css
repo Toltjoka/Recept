@@ -324,6 +324,14 @@ footer.stats {
 
 .detail-header .source strong { color: var(--text-muted); font-weight: 400; }
 
+.source-link {
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 2px;
+}
+
+.source-link:hover { color: var(--ember-bright); text-decoration-color: var(--ember-bright); }
+
 .detail-grid {
   display: grid;
   grid-template-columns: minmax(260px, 340px) 1fr;
