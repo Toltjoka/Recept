@@ -1,10 +1,16 @@
-// RÖKHUSET — app.js
-// Ren vanilla JS, ingen byggprocess. Läser RECIPES från data.js.
-// Routing via location.hash så filen fungerar direkt när man
-// dubbelklickar på index.html (inga serverkrav).
+// TOLTJOKAS RECEPTBOK — app.js
+// Ren vanilla JS, ingen byggprocess. Recepten hämtas från en skyddad
+// Supabase-tabell (kräver inloggning) istället för att ligga öppet i koden.
+// Routing via location.hash för recept-vyn.
 
 (function () {
   const app = document.getElementById("app");
+
+  const SUPABASE_URL = "https://fajtxhxwvnuhfkytdcqi.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Bj34twqhrvwdbcUvdjCAvw_6Ma8zOAL";
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  let RECIPES = [];
 
   function escapeHtml(str) {
     const div = document.createElement("div");
@@ -303,7 +309,88 @@
     `;
   }
 
-  window.addEventListener("hashchange", render);
-  window.addEventListener("DOMContentLoaded", render);
-  if (document.readyState !== "loading") render();
+  // ---------- Inloggning ----------
+
+  function renderLogin(errorMessage) {
+    app.innerHTML = `
+      <div class="login-wrap">
+        <form class="login-card" id="login-form" autocomplete="on">
+          <h2>Logga in</h2>
+          <p class="ticket-hint">Receptboken är privat. Logga in för att se recepten.</p>
+          ${errorMessage ? `<p class="login-error">${escapeHtml(errorMessage)}</p>` : ""}
+          <label class="login-label" for="login-email">E-post</label>
+          <input class="login-input" type="email" id="login-email" name="email" autocomplete="username" required>
+          <label class="login-label" for="login-password">Lösenord</label>
+          <input class="login-input" type="password" id="login-password" name="password" autocomplete="current-password" required>
+          <button class="login-submit" type="submit">Logga in</button>
+        </form>
+      </div>
+    `;
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitBtn = e.target.querySelector(".login-submit");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Loggar in…";
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) {
+        renderLogin("Fel e-post eller lösenord.");
+        return;
+      }
+      await bootAuthenticated();
+    });
+  }
+
+  function updateLogoutLink(loggedIn) {
+    const link = document.getElementById("logout-link");
+    if (!link) return;
+    link.hidden = !loggedIn;
+  }
+
+  async function bootAuthenticated() {
+    updateLogoutLink(true);
+    app.innerHTML = `<div class="empty-state">Laddar recept…</div>`;
+    const { data, error } = await sb.from("recept_recipes").select("data").order("date_added", { ascending: false });
+    if (error) {
+      app.innerHTML = `<div class="empty-state">Kunde inte hämta recepten. Ladda om sidan och försök igen.</div>`;
+      return;
+    }
+    RECIPES = data.map((row) => row.data);
+    render();
+  }
+
+  async function boot() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      await bootAuthenticated();
+    } else {
+      updateLogoutLink(false);
+      renderLogin();
+    }
+  }
+
+  sb.auth.onAuthStateChange((event) => {
+    if (event === "SIGNED_OUT") {
+      updateLogoutLink(false);
+      currentCategory = "Alla";
+      currentQuery = "";
+      renderLogin();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    const logoutLink = e.target.closest("#logout-link");
+    if (logoutLink) {
+      e.preventDefault();
+      sb.auth.signOut();
+    }
+  });
+
+  window.addEventListener("hashchange", () => {
+    if (RECIPES.length > 0) render();
+  });
+  window.addEventListener("DOMContentLoaded", boot);
+  if (document.readyState !== "loading") boot();
 })();

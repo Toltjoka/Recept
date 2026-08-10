@@ -8,13 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header class="site-header">
   <div class="site-header__inner">
     <a href="#/" class="wordmark">TOLTJOKAS<span class="ember-dot">·</span>RECEPTBOK</a>
-    <div class="tagline">Checklista &amp; tillagning</div>
+    <div class="tagline">
+      Checklista &amp; tillagning
+      <a href="#" id="logout-link" class="logout-link" hidden>Logga ut</a>
+    </div>
   </div>
 </header>
 
@@ -22,7 +26,6 @@
   <!-- Innehåll renderas av app.js -->
 </main>
 
-<script src="data.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>
