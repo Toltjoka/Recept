@@ -7,7 +7,7 @@
   const app = document.getElementById("app");
 
   const SUPABASE_URL = "https://fajtxhxwvnuhfkytdcqi.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_Bj34twqhrvwdbcUvdjCAvw_6Ma8zOAL";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhanR4aHh3dm51aGZreXRkY3FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3NTk3NjMsImV4cCI6MjA5OTMzNTc2M30.b7rMbVl_56fbRSESVO8HT5XuGoeshtY4jozfZ9T8Aqg";
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   let RECIPES = [];
