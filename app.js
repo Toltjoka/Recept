@@ -231,6 +231,12 @@
           <ol>
             ${recipe.steps.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
           </ol>
+          ${recipe.handwrittenImage ? `
+            <div class="original-note">
+              <h2>Originalanteckningen</h2>
+              <img src="${recipe.handwrittenImage}" alt="Handskrivet originalrecept" class="original-note__img">
+            </div>
+          ` : ""}
         </div>
       </div>
     `;

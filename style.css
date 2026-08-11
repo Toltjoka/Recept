@@ -748,6 +748,34 @@ footer.stats {
   padding-top: 2px;
 }
 
+/* Handskriven originalanteckning */
+
+.original-note {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 3px double var(--line);
+}
+
+.original-note h2 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 14px;
+}
+
+.original-note__img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 8px solid var(--bg-card);
+  outline: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(54, 42, 26, 0.18);
+  transform: rotate(-0.6deg);
+  border-radius: 1px;
+}
+
 /* Utility */
 
 .visually-hidden {
