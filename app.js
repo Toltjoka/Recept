@@ -12,6 +12,42 @@
 
   let RECIPES = [];
 
+  // ---------- Matlagningsläge (håller skärmen tänd) ----------
+
+  let wakeLock = null;
+  let cookModeActive = false;
+
+  async function enableWakeLock() {
+    try {
+      wakeLock = await navigator.wakeLock.request("screen");
+      wakeLock.addEventListener("release", () => {
+        wakeLock = null;
+      });
+      return true;
+    } catch (err) {
+      wakeLock = null;
+      return false;
+    }
+  }
+
+  function disableWakeLock() {
+    if (wakeLock) {
+      wakeLock.release().catch(() => {});
+      wakeLock = null;
+    }
+  }
+
+  function turnOffCookMode() {
+    disableWakeLock();
+    cookModeActive = false;
+  }
+
+  document.addEventListener("visibilitychange", async () => {
+    if (cookModeActive && wakeLock === null && document.visibilityState === "visible") {
+      await enableWakeLock();
+    }
+  });
+
   function escapeHtml(str) {
     const div = document.createElement("div");
     div.textContent = str;
@@ -34,6 +70,7 @@
   }
 
   function render() {
+    turnOffCookMode();
     const id = slugParam();
     if (id) {
       const recipe = RECIPES.find((r) => r.id === id);
@@ -239,6 +276,10 @@
           ` : ""}
         </div>
       </div>
+      <button class="cook-mode-fab" id="cook-mode-toggle" aria-pressed="false">
+        <span class="cook-mode-fab__icon">☀︎</span>
+        <span class="cook-mode-fab__label">Matlagningsläge</span>
+      </button>
     `;
 
     function updateGauge() {
@@ -276,6 +317,32 @@
 
     document.getElementById("export-shopping").addEventListener("click", () => {
       exportShoppingList(recipe);
+    });
+
+    document.getElementById("cook-mode-toggle").addEventListener("click", async (e) => {
+      const btn = e.currentTarget;
+      if (!cookModeActive) {
+        if (!("wakeLock" in navigator)) {
+          showToast("Matlagningsläge stöds inte i den här webbläsaren.");
+          return;
+        }
+        btn.disabled = true;
+        const ok = await enableWakeLock();
+        btn.disabled = false;
+        if (ok) {
+          cookModeActive = true;
+          btn.classList.add("active");
+          btn.setAttribute("aria-pressed", "true");
+          btn.querySelector(".cook-mode-fab__label").textContent = "Skärmen hålls tänd";
+        } else {
+          showToast("Kunde inte hålla skärmen tänd just nu.");
+        }
+      } else {
+        turnOffCookMode();
+        btn.classList.remove("active");
+        btn.setAttribute("aria-pressed", "false");
+        btn.querySelector(".cook-mode-fab__label").textContent = "Matlagningsläge";
+      }
     });
 
     updateGauge();
